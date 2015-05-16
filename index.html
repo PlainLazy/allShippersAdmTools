@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>AllShippers</title>
+	
+	<script>
+		//@charset UTF-8
+		//console.debug(document.cookie);
+		'use strict';
+		
+		window.__defineGetter__('__FILE__', function() {
+			return (new Error).stack.split('/').slice(-1).join().split('.')[0];
+		});
+		
+		var sid = null;  // токен сессии клиента
+		var sid_ttl = 60*60*24*365;  // время жизни токена
+		var ymapSerial = 5000;
+		
+		function lg (txt) {
+			var d = new Date();
+			var tm = d.toTimeString().split(' ')[0] + '.' + d.getTime().toString().substr(-3);
+			console.log(tm + ' ' + txt);
+		}
+		
+		if (!navigator.cookieEnabled) {
+			alert('Включите cookie');
+			throw 'cookie disabled';
+		}
+		
+		function body_ready () {
+			lg('body_ready');
+			//Ext.query('body')[0].innerHTML = '';  // очищаем документ
+			Ext.onReady(ext_ready);  // ждем когда будет готов extjs
+		}
+		
+		function ext_ready () {
+			lg('ext_ready');
+			prepare_extjs();
+			new screenLogin();  // создаем интерфейс входа
+		}
+		
+	</script>
+	
+	<script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" async></script>
+	<link rel="stylesheet" type="text/css" href="frameworks/ext-theme-crisp-all_01.css">
+	<link rel="stylesheet" type="text/css" href="frameworks/ext-theme-crisp-all_02.css">
+	<script type="text/javascript" _src="frameworks/ext-all.js"></script>
+	<script type="text/javascript" src="frameworks/ext-all-debug.js"></script>
+	<script type="text/javascript" src="frameworks/ext-theme-crisp.js"></script>
+
+	<!--
+	sencha -sdk z:\bumtrans\tmp\ext-5.1.0\ compile -classpath=/ page -yui -in index.html -out index.php
+	sencha -sdk z:\bumtrans\tmp\ext-5.1.0\ compile -classpath=/ page -strip -in index.html -out index.php
+	-->
+	
+	<!-- <x-compile> -->
+	<script type="text/javascript" src="common.js"></script>
+	<script type="text/javascript" src="screenLogin.js"></script>
+	<script type="text/javascript" src="screenWork.js"></script>
+	<script type="text/javascript" src="winCompanyUpsert.js"></script>
+	<script type="text/javascript" src="winCompanySelect.js"></script>
+	<script type="text/javascript" src="winLinkTypeSelect.js"></script>
+	<script type="text/javascript" src="winCompanies.js"></script>
+	<script type="text/javascript" src="winCompanyLink.js"></script>
+	<script type="text/javascript" src="winPermTypeSelect.js"></script>
+	<script type="text/javascript" src="winUsers.js"></script>
+	<script type="text/javascript" src="winYmap.js"></script>
+	<!-- </x-compile> -->
+
+</head>
+<body onload="body_ready()"></body>
+</html>
